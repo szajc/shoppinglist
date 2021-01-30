@@ -24,7 +24,7 @@ function App() {
             alreadyBought: data[key].alreadyBought, 
           };
         })
-        setCartData(shoppingcart);
+        setCartData(shoppingcart.reverse());
       }
     })
   }
@@ -45,7 +45,7 @@ function App() {
     // delete item from DB
     const removeData = firebase.database().ref('shoppingcart/' + itemId);
     removeData.remove()
-    toast(`${itemName} odstranjen/a`);
+    toast(`${itemName.slice(0, 10)}... odstranjen/a`);
   }
 
   const boughtItemHandler = (inputItem) => {
@@ -74,6 +74,7 @@ function App() {
       <div className="textContainer">
         <p>Nakupovalni listek</p>
       </div>
+      <InputBox />
       <div className="dataContainer">
         {
           cartData && cartData.length > 0 ?
@@ -81,7 +82,7 @@ function App() {
           <p>Vaš nakupovalni listek je prazen</p>
         }
       </div>
-      <InputBox />
+      
     </div>
   );
 }

@@ -28,7 +28,7 @@ function InputBox(props) {
             }
             writeData(data);
             setInput('');
-            toast(`${input} dodan/a!`)
+            toast(input.length > 10 ? `${input.slice(0, 10)}... dodan/a`: `${input} dodan/a!`, 'green')
         }
     }
 
