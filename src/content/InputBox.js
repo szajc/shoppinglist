@@ -32,12 +32,22 @@ function InputBox(props) {
         }
     }
 
+    const onKeyUpSendMessage = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (e.keyCode === 13) {
+          sendData();
+        }
+    }
+
+
     return (
         <div className="inputContainer">
             <input
                 ref={ref}
                 value={input} 
-                onChange={e => setInput(e.target.value)} 
+                onChange={e => setInput(e.target.value)}
+                onKeyUp={onKeyUpSendMessage} 
             />
             <button onClick={sendData}>+</button>
         </div>
