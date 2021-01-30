@@ -76,6 +76,7 @@
   overflow: hidden;
   flex: 1;
   margin-right: 5px;
+  cursor: pointer;
 }
 .singleItem p {
   margin: 0;
@@ -150,6 +151,7 @@
   margin: 0 10px;
   border-radius: 5px;
   padding: 10px;
+  overflow: hidden;
 }
 .toast p {
   margin: 0;

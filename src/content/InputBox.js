@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import firebase from 'firebase'; // /app or /database
 import toast from '../assets/toast/toast';
 
 function InputBox(props) {
 
     const [input, setInput] = useState('');
+    const ref = useRef();
+
+    useEffect(() => {
+        ref.current.focus();
+    }, [])
 
     function writeData(inputData) {
         let newPostKey = firebase.database().ref('shoppingcart/').push().key;
@@ -29,7 +34,8 @@ function InputBox(props) {
 
     return (
         <div className="inputContainer">
-            <input 
+            <input
+                ref={ref}
                 value={input} 
                 onChange={e => setInput(e.target.value)} 
             />
