@@ -53,6 +53,10 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+.dataContainer p {
+  font-size: 15px;
+  font-weight: 600;
+}
 .item {
   position: relative;
   margin-right: 10px;
@@ -140,7 +144,7 @@
   position: absolute;
   display: flex;
   width: 200px;
-  background-color: black;
+  background-color:rgb(114, 28, 227, 0.8);
   color: #fff;
   bottom: 5px;
   margin: 0 10px;

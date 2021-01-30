@@ -45,14 +45,14 @@ function App() {
     // delete item from DB
     const removeData = firebase.database().ref('shoppingcart/' + itemId);
     removeData.remove()
-    toast(`${itemName} odstranjen`);
+    toast(`${itemName} odstranjen/a`);
   }
 
   const boughtItemHandler = (inputItem) => {
     // change item from "cartData"
     setCartData(prevstate => {
       const data = [...prevstate];
-      let newData = data.map(item => 
+      let newData = data.map(item =>
         item.id === inputItem.id
         ? { ...item, alreadyBought: !inputItem.alreadyBought }
         : item

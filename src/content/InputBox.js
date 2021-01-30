@@ -15,8 +15,7 @@ function InputBox(props) {
 
     const sendData = () => {
         if (input === '') {
-            console.log('polje prazno')
-            //return toast('polje je prazno!');
+            return toast('polje je prazno!');
         } else {
             const data = {
                 item: input,
@@ -24,7 +23,7 @@ function InputBox(props) {
             }
             writeData(data);
             setInput('');
-            toast(`${input} dodan!`)
+            toast(`${input} dodan/a!`)
         }
     }
 
