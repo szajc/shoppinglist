@@ -1,23 +1,66 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
 
+import firebase from 'firebase/app'; // /app or /database
+import 'firebase/database';
+import InputBox from './content/InputBox';
+import DataItems from './content/DataItems';
+import config from "./firebaseConfig";
+import toast from './content/toast';
+!firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+
 function App() {
+  const [cartData, setCartData] = useState([]);
+
+  const getDataFirebase = () => {
+    const getData = firebase.database().ref('/shoppingcart/');
+    getData.on('value', function(snapshot) {
+      const data = snapshot.val();
+      if (data !== null) {
+        const shoppingcart = Object.keys(data).map( key => {
+          return  {
+            id: key, 
+            item: data[key].item,
+            alreadyBought: data[key].alreadyBought, 
+          };
+        })
+        setCartData(shoppingcart);
+      }
+    })
+  }
+
+  useEffect(() => {
+    getDataFirebase();
+    return () => {
+      getDataFirebase.cancle();
+    }
+  }, [])
+
+  const deleteItemHandler = (itemId, itemName) => {
+    // delete item from "cartData"
+    setCartData(prevstate => {
+      const newData = [...prevstate];
+      return newData.filter(item => item.id !== itemId);
+    });
+    // delete item from DB
+    const removeData = firebase.database().ref('shoppingcart/' + itemId);
+    removeData.remove()
+    toast(`${itemName} odstranjen`);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="mainContainer" id="forToast">
+      <div className="textContainer">
+        <p>Nakupovalni listek</p>
+      </div>
+      <div className="dataContainer">
+        {
+          cartData && cartData.length > 0 ?
+          <DataItems data={cartData} deleteItem={deleteItemHandler}/> :
+          <p>Vaš nakupovalni listek je prazen</p>
+        }
+      </div>
+      <InputBox />
     </div>
   );
 }
