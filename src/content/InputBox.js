@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import firebase from 'firebase'; // /app or /database
-import toast from './toast';
+import toast from '../assets/toast/toast';
 
 function InputBox(props) {
 
@@ -24,7 +24,7 @@ function InputBox(props) {
             }
             writeData(data);
             setInput('');
-            console.log("vensli ste...")
+            toast(`${input} dodan!`)
         }
     }
 

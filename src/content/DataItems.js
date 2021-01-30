@@ -3,7 +3,7 @@ import trashIcon from '../assets/icons/trashWhite.png';
 
 function DataItems(props) {
 
-    const { data, deleteItem } = props;
+    const { data, deleteItem, boughtItem } = props;
 
     return (
         <Fragment>
@@ -11,8 +11,12 @@ function DataItems(props) {
             <div 
                 className="item"
                 key={item.id}>
-              <div className="singleItem">
-                <p>{item.item}</p>
+              <div className="singleItem"
+                    onClick={() => boughtItem(item)} >
+                <p style={{
+                        textDecoration: !item.alreadyBought ? 'none' : 'line-through',
+                        color: !item.alreadyBought ? '#000' : 'gray'
+                    }}>{item.item}</p>
               </div>
               <div 
                 className="itemIcon"

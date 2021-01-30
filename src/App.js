@@ -6,7 +6,7 @@ import 'firebase/database';
 import InputBox from './content/InputBox';
 import DataItems from './content/DataItems';
 import config from "./firebaseConfig";
-import toast from './content/toast';
+import toast from './assets/toast/toast';
 !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
 
 function App() {
@@ -48,6 +48,27 @@ function App() {
     toast(`${itemName} odstranjen`);
   }
 
+  const boughtItemHandler = (inputItem) => {
+    // change item from "cartData"
+    setCartData(prevstate => {
+      const data = [...prevstate];
+      let newData = data.map(item => 
+        item.id === inputItem.id
+        ? { ...item, alreadyBought: !inputItem.alreadyBought }
+        : item
+      )
+      return newData;
+    })
+    // change item from DB
+    const update = {
+      item: inputItem.item,
+      alreadyBought: !inputItem.alreadyBought
+    }
+    var updates = {};
+    updates[inputItem.id] = update;
+    return firebase.database().ref('shoppingcart/').update(updates);
+  }
+
   return (
     <div className="mainContainer" id="forToast">
       <div className="textContainer">
@@ -56,7 +77,7 @@ function App() {
       <div className="dataContainer">
         {
           cartData && cartData.length > 0 ?
-          <DataItems data={cartData} deleteItem={deleteItemHandler}/> :
+          <DataItems data={cartData} deleteItem={deleteItemHandler} boughtItem={boughtItemHandler}/> :
           <p>Vaš nakupovalni listek je prazen</p>
         }
       </div>
